@@ -1,12 +1,13 @@
 // See README.md for license details.
 
-package gcd
+package konqueror
 
 import chisel3._
 import chisel3.experimental.BundleLiterals._
 import chisel3.simulator.EphemeralSimulator._
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
+import konqueror.{GcdOutputBundle, DecoupledGcd, GcdInputBundle}
 
 /**
   * This is a trivial example of how to run this Specification
@@ -20,7 +21,7 @@ import org.scalatest.matchers.must.Matchers
   * }}}
   * Testing from mill:
   * {{{
-  * mill this-chisel-core.test.testOnly gcd.GCDSpec
+  * mill DemoCore.test.testOnly gcd.GCDSpec
   * }}}
   */
 class GCDSpec extends AnyFreeSpec with Matchers {
