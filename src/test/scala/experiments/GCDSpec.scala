@@ -1,17 +1,16 @@
 // See README.md for license details.
 
-package konqueror
+package experiments
 
 import chisel3._
 import chisel3.experimental.BundleLiterals._
 import chisel3.simulator.EphemeralSimulator._
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
-import konqueror.{GcdOutputBundle, DecoupledGcd, GcdInputBundle}
+import experiments.gcd.{GcdOutputBundle, DecoupledGcd, GcdInputBundle}
 
-/**
-  * This is a trivial example of how to run this Specification
-  * From within sbt use:
+/** This is a trivial example of how to run this Specification From within sbt
+  * use:
   * {{{
   * testOnly gcd.GCDSpec
   * }}}
@@ -28,10 +27,16 @@ class GCDSpec extends AnyFreeSpec with Matchers {
 
   "Gcd should calculate proper greatest common denominator" in {
     simulate(new DecoupledGcd(16)) { dut =>
-      val testValues = for { x <- 0 to 10; y <- 0 to 10} yield (x, y)
-      val inputSeq = testValues.map { case (x, y) => (new GcdInputBundle(16)).Lit(_.value1 -> x.U, _.value2 -> y.U) }
+      val testValues = for { x <- 0 to 10; y <- 0 to 10 } yield (x, y)
+      val inputSeq = testValues.map { case (x, y) =>
+        (new GcdInputBundle(16)).Lit(_.value1 -> x.U, _.value2 -> y.U)
+      }
       val resultSeq = testValues.map { case (x, y) =>
-        (new GcdOutputBundle(16)).Lit(_.value1 -> x.U, _.value2 -> y.U, _.gcd -> BigInt(x).gcd(BigInt(y)).U)
+        (new GcdOutputBundle(16)).Lit(
+          _.value1 -> x.U,
+          _.value2 -> y.U,
+          _.gcd -> BigInt(x).gcd(BigInt(y)).U
+        )
       }
 
       dut.reset.poke(true.B)
@@ -55,7 +60,9 @@ class GCDSpec extends AnyFreeSpec with Matchers {
         if (received < 100) {
           dut.output.ready.poke(true.B)
           if (dut.output.valid.peekValue().asBigInt == 1) {
-            dut.output.bits.gcd.expect(BigInt(testValues(received)._1).gcd(testValues(received)._2))
+            dut.output.bits.gcd.expect(
+              BigInt(testValues(received)._1).gcd(testValues(received)._2)
+            )
             received += 1
           }
         }
