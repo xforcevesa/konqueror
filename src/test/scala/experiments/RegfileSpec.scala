@@ -9,7 +9,7 @@ import org.scalatest.matchers.should.Matchers
 import experiments.regfile.Regfile
 
 class RegfileSpec extends AnyFlatSpec with Matchers {
-  "Scroller" should "scroll" in {
+  "Regfile" should "writable and readable" in {
     simulate(new Regfile) { dut =>
       dut.reset.poke(true.B)
       dut.clock.step()

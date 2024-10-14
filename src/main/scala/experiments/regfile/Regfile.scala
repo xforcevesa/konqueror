@@ -2,6 +2,7 @@ package experiments.regfile
 
 import chisel3._
 import chisel3.util._
+import chisel3.experimental.hierarchy.instantiable
 
 class RegfileReadBundle extends Bundle {
     val raddr = Input(UInt(5.W))

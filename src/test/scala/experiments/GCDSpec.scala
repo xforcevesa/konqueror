@@ -8,6 +8,7 @@ import chisel3.simulator.EphemeralSimulator._
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import experiments.gcd.{GcdOutputBundle, DecoupledGcd, GcdInputBundle}
+import org.scalatest.flatspec.AnyFlatSpec
 
 /** This is a trivial example of how to run this Specification From within sbt
   * use:
@@ -23,9 +24,9 @@ import experiments.gcd.{GcdOutputBundle, DecoupledGcd, GcdInputBundle}
   * mill DemoCore.test.testOnly gcd.GCDSpec
   * }}}
   */
-class GCDSpec extends AnyFreeSpec with Matchers {
+class GCDSpec extends AnyFlatSpec with Matchers {
 
-  "Gcd should calculate proper greatest common denominator" in {
+  "Gcd" should "calculate proper greatest common denominator" in {
     simulate(new DecoupledGcd(16)) { dut =>
       val testValues = for { x <- 0 to 10; y <- 0 to 10 } yield (x, y)
       val inputSeq = testValues.map { case (x, y) =>
